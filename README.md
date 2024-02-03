@@ -1,2 +1,2 @@
 # blogger
-Blogger project for CSCI 421
+Blogger project for CSCI 421...
