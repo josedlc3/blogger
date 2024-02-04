@@ -1,6 +1,6 @@
-/* GET 'index' page */
+/* GET 'home' page */
 module.exports.homepage = function(req, res){
-    res.render('index', { title: "Jose De La Cruz's Blog Site"});
+    res.render('home', { title: "Jose De La Cruz's Blog Site"});
 };
 
 /* GET 'blogList' page */
