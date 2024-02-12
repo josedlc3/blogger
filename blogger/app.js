@@ -3,13 +3,14 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+require('./app_server/models/db');
 
-var homeRouter = require('./routes/home');
+var homeRouter = require('./app_server/routes/home');
 
 var app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'app_server', 'views'));
 app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
@@ -18,6 +19,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/bootstrap', express.static(path.join(__dirname, 'node_modules/bootstrap/dist')));
+app.use('/bootstrap-icons', express.static(path.join(__dirname, 'node_modules/bootstrap-icons')));
 
 app.use('/', homeRouter);
 

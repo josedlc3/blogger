@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/bootstrap-icons/font/bootstrap-icons.css"
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <div class="mb-3"><% include ./partials/nav %></div>
+    <h1><%= title %></h1>
+    <p>
+      <ul>
+        <% blogs.forEach(function(blog) { %>
+          <li><%= blog.title %>: <%= blog.text %> <a href="/blogedit"><i class="bi bi-pencil"></i></a> <a href="/blogdeletion"><i class="pr-1 bi bi-trash"></i></a></li>
+        <% }); %>
+      </ul>
+    </p>
+  </body>
+</html>
