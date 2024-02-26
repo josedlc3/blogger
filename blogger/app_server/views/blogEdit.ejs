@@ -13,7 +13,6 @@
         </div>
         <div class="card-body">
             <form action="/api/blogs/<%= blog._id %>" method="post" role="form">
-                <input type="hidden" name="_method" value="put">
                 <div class="form-group">
                     <label for="blogTitle" class="text-dark">Title</label>
                     <input class="form-control" id="blogTitle" name="blogTitle" value="<%= blog.blogTitle %>" required>

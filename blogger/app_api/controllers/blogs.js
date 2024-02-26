@@ -57,18 +57,20 @@ module.exports.updateSingleBlog = function (req, res) {
     }
     
     Blo
-        .findOneAndUpdate(
-            { _id: req.params.blogid },
-            { $set: { "blogTitle": req.body.blogTitle, "blogEntry": req.body.blogEntry } },
-            {new : true},
-            function (err, response) {
+    .findById(req.params.blogid)
+    .exec(
+        function(err, blog) {
+            blog.blogTitle = req.body.blogTitle;
+            blog.blogEntry = req.body.blogEntry;
+            blog.save(function(err, blog){
                 if (err) {
-                    sendJsonResponse(res, 400, err);
+                    sendJsonResponse(res, 404, err);
                 } else {
-                    sendJsonResponse(res, 201, response);
+                    sendJsonResponse(res, 200, blog);
                 }
-            }
-        );
+            });
+        }
+    );
 };
 
 module.exports.deleteSingleBlog = function (req, res) {

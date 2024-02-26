@@ -15,6 +15,6 @@ router.get('/blogadd', ctrlBlog.blogadd);
 router.get('/blogedit/:blogid', ctrlBlog.blogedit);
 
 /* Blog Deletion */
-router.get('/blogdeletion', ctrlBlog.blogdeletion);
+router.get('/blogdeletion/blogid', ctrlBlog.blogdeletion);
 
 module.exports = router;

@@ -9,6 +9,14 @@
   <body>
     <div class="mb-3"><% include ./partials/nav %></div>
     <h1><%= title %></h1>
-    <p>!UNDER CONSTRUCTION!</p>
+    
+    <p>Are you sure you want to delete this blog?</p>
+    
+    <form action="/api/blogs/<%= blog._id %>" method="post">
+      <button type="submit" class="btn btn-danger">Delete</button>
+      <a href="/blogList" class="btn btn-secondary">Cancel</a>
+      <input type="hidden" name="_method" value="delete">
+    </form>
+    
   </body>
 </html>

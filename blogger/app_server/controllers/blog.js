@@ -1,6 +1,6 @@
 var request = require('request');
 var apiOptions = {
-    server: "http://54.144.232.111"
+    server: "http://localhost"
 };
 
 /* GET 'home' page */
