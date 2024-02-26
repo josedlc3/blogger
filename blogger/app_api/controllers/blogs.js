@@ -2,22 +2,22 @@ var mongoose = require('mongoose');
 var Blo = mongoose.model('Blog');
 
 module.exports.listAllBlogs = function (req, res) {
-    Blo
-    .find()
-    .exec(function(err, results) {
-      if (!results) {
-        sendJsonResponse(res, 404, {
-          "message": "no locations found"
+    Blo.find()
+        .exec()
+        .then(results => {
+            if (!results || results.length === 0) {
+                sendJsonResponse(res, 404, {
+                    "message": "No blogs found"
+                });
+            } else {
+                console.log(results);
+                sendJsonResponse(res, 200, buildBlogList(req, res, results));
+            }
+        })
+        .catch(err => {
+            console.log(err);
+            sendJsonResponse(res, 500, err);
         });
-        return;
-      } else if (err) {
-        console.log(err);
-        sendJsonResponse(res, 404, err);
-        return;
-      }
-      console.log(results);
-      sendJsonResponse(res, 200, buildBlogList(req, res, results));
-    }); 
 };
 
 module.exports.getSingleBlog = function (req, res) {
@@ -33,29 +33,54 @@ module.exports.getSingleBlog = function (req, res) {
         });
 };
 
-module.exports.createNewBlog = function (req, res) {
-    Blo
-    .create({
-        blogTitle: req.body.blogTitle,
-        blogEntry: req.body.blogEntry
-    }, function(err, blog) {
-        if (err) {
-            console.log(err);
-            sendJsonResponse(res, 400, err);
-         } else {
-            console.log(blog);
-            sendJsonResponse(res, 201, blog);
-         }
-    })
+module.exports.createNewBlog = async function (req, res) {
+    try {
+        const blog = await Blo.create({
+            blogTitle: req.body.blogTitle,
+            blogEntry: req.body.blogEntry,
+            createdOn: req.body.createdOn
+        });
+        console.log(blog);
+        sendJsonResponse(res, 201, blog);
+    } catch (err) {
+        console.log(err);
+        sendJsonResponse(res, 400, err);
+    }
 };
 
 
 module.exports.updateSingleBlog = function (req, res) {
-    sendJsonResponse(res, 200, {"status" : "success"});
+    if (!req.body.blogTitle || !req.body.blogEntry) {
+        sendJsonResponse(res, 400, { error: "Both blogTitle and blogEntry are required in the request body." });
+        return;
+    }
+    
+    Blo
+        .findOneAndUpdate(
+            { _id: req.params.id },
+            { $set: { "blogTitle": req.body.blogTitle, "blogEntry": req.body.blogEntry } },
+            function (err, response) {
+                if (err) {
+                    sendJsonResponse(res, 400, err);
+                } else {
+                    sendJsonResponse(res, 201, response);
+                }
+            }
+        );
 };
 
 module.exports.deleteSingleBlog = function (req, res) {
-    sendJsonResponse(res, 200, {"status" : "success"});
+    Blo
+    .findByIdAndRemove(req.params.id)
+    .exec (
+        function(err, response) {
+            if (err) {
+                 sendJsonResponse(res, 404, err);
+            } else {
+                sendJsonResponse(res, 204, null);
+            }
+        }
+    );
 };
 
 var sendJsonResponse = function (res, status, content) {
