@@ -9,13 +9,13 @@
   <body>
     <div class="mb-3"><% include ./partials/nav %></div>
     <div class="card" style="width: 50%">
-      <form action="" method="post" role="form">
+      <form action="/api/blogs" method="post" role="form">
         <div class="form-group">
           <label for="blogTitle" class="text-dark">Title</label>
-          <input class="form-control" id="blogTitle" name="blogTitle">
+          <input class="form-control" id="blogTitle" name="blogTitle" required>
 
           <label for="blogEntry" class="text-dark">Entry</label>
-          <textarea class="form-control" id="blogEntry" rows="3" name="blogEntry"></textarea>
+          <textarea class="form-control" id="blogEntry" rows="3" name="blogEntry" required></textarea>
         </div>
         <input type="submit" class="btn btn-primary bg-dark border-dark" value="Add Blog">
       </form>
