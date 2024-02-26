@@ -12,7 +12,7 @@ router.get('/bloglist', ctrlBlog.bloglist);
 router.get('/blogadd', ctrlBlog.blogadd);
 
 /* Blog Edit */
-router.get('/blogedit', ctrlBlog.blogedit);
+router.get('/blogedit/:blogid', ctrlBlog.blogedit);
 
 /* Blog Deletion */
 router.get('/blogdeletion', ctrlBlog.blogdeletion);

@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var request = require('request');
 var Blo = mongoose.model('Blog');
 
 module.exports.listAllBlogs = function (req, res) {
@@ -57,8 +58,9 @@ module.exports.updateSingleBlog = function (req, res) {
     
     Blo
         .findOneAndUpdate(
-            { _id: req.params.id },
+            { _id: req.params.blogid },
             { $set: { "blogTitle": req.body.blogTitle, "blogEntry": req.body.blogEntry } },
+            {new : true},
             function (err, response) {
                 if (err) {
                     sendJsonResponse(res, 400, err);

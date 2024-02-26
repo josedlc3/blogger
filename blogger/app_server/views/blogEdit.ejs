@@ -1,14 +1,31 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
     <script src="/bootstrap/js/bootstrap.min.js"></script>
-  </head>
-  <body>
+</head>
+<body>
     <div class="mb-3"><% include ./partials/nav %></div>
-    <h1><%= title %></h1>
-    <p>!UNDER CONSTRUCTION!</p>
-  </body>
+    <div class="card border-primary" style="width: 50%">
+        <div class="card-header">
+        </div>
+        <div class="card-body">
+            <form action="/api/blogs/<%= blog._id %>" method="post" role="form">
+                <input type="hidden" name="_method" value="put">
+                <div class="form-group">
+                    <label for="blogTitle" class="text-dark">Title</label>
+                    <input class="form-control" id="blogTitle" name="blogTitle" value="<%= blog.blogTitle %>" required>
+
+                    <label for="blogEntry" class="text-dark">Entry</label>
+                    <textarea class="form-control" id="blogEntry" rows="3" name="blogEntry" required><%= blog.blogEntry %></textarea>
+                </div>
+                <input type="submit" class="btn btn-primary bg-dark border-dark" value="Update Blog">
+            </form>
+        </div>
+        <div class="card-footer">
+        </div>
+    </div>
+</body>
 </html>

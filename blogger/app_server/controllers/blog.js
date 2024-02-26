@@ -60,7 +60,7 @@ module.exports.blogadd = function(req, res){
 };
 
 var renderBlogedit = function(req, res, responseBody){
-    res.render('blogEdit', { title: 'Blog Edit', blogTitle : responseBody.blogTitle, blogEntry : responseBody.blogEntry});
+    res.render('blogEdit', { title: 'Blog Edit', blog: responseBody, blogTitle: responseBody.blogTitle, blogEntry: responseBody.blogEntry});
 };
 
 /* GET 'blogEdit' page */
