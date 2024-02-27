@@ -34,57 +34,58 @@ module.exports.getSingleBlog = function (req, res) {
         });
 };
 
-module.exports.createNewBlog = async function (req, res) {
-    try {
-        const blog = await Blo.create({
+module.exports.createNewBlog = function (req, res) {
+    console.log(req.body);
+    Blo
+        .create({
             blogTitle: req.body.blogTitle,
-            blogEntry: req.body.blogEntry,
-            createdOn: req.body.createdOn
+            blogEntry: req.body.blogEntry
+        })
+        .then(blog => {
+            console.log(blog);
+            sendJsonResponse(res, 201, blog);
+        })
+        .catch(err => {
+            console.log(err);
+            sendJsonResponse(res, 400, err);
         });
-        console.log(blog);
+};
+
+
+module.exports.updateSingleBlog = async function (req, res) {
+    try {
+        console.log("Updating a blog entry with id of " + req.params.blogid);
+        console.log(req.body);
+
+        const blog = await Blo.findByIdAndUpdate(
+            req.params.blogid,
+            { $set: { "blogTitle": req.body.blogTitle, "blogEntry": req.body.blogEntry } },
+            { new: true }
+        );
+
+        if (!blog) {
+            sendJsonResponse(res, 404, { message: "Blog not found" });
+        }
         sendJsonResponse(res, 201, blog);
     } catch (err) {
-        console.log(err);
         sendJsonResponse(res, 400, err);
     }
 };
 
 
-module.exports.updateSingleBlog = function (req, res) {
-    if (!req.body.blogTitle || !req.body.blogEntry) {
-        sendJsonResponse(res, 400, { error: "Both blogTitle and blogEntry are required in the request body." });
-        return;
-    }
-    
-    Blo
-    .findById(req.params.blogid)
-    .exec(
-        function(err, blog) {
-            blog.blogTitle = req.body.blogTitle;
-            blog.blogEntry = req.body.blogEntry;
-            blog.save(function(err, blog){
-                if (err) {
-                    sendJsonResponse(res, 404, err);
-                } else {
-                    sendJsonResponse(res, 200, blog);
-                }
-            });
-        }
-    );
-};
-
 module.exports.deleteSingleBlog = function (req, res) {
     Blo
-    .findByIdAndRemove(req.params.id)
-    .exec (
-        function(err, response) {
-            if (err) {
-                 sendJsonResponse(res, 404, err);
+        .findByIdAndDelete(req.params.blogid)
+        .then(blog => {
+            if (!blog) {
+                sendJsonResponse(res, 404, { error: "Blog not found" });
             } else {
                 sendJsonResponse(res, 204, null);
             }
-        }
-    );
+        })
+        .catch(err => {
+            sendJsonResponse(res, 500, err);
+        });
 };
 
 var sendJsonResponse = function (res, status, content) {
@@ -92,15 +93,15 @@ var sendJsonResponse = function (res, status, content) {
     res.json(content);
 };
 
-var buildBlogList = function(req, res, results) {
+var buildBlogList = function (req, res, results) {
     var blogs = [];
-    results.forEach(function(obj) {
-      blogs.push({
-        blogTitle: obj.blogTitle,
-        blogEntry: obj.blogEntry,
-        createdOn: obj.createdOn,
-        _id: obj._id
-      });
+    results.forEach(function (obj) {
+        blogs.push({
+            blogTitle: obj.blogTitle,
+            blogEntry: obj.blogEntry,
+            createdOn: obj.createdOn,
+            _id: obj._id
+        });
     });
     return blogs;
-  };
+};
