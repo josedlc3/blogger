@@ -3,9 +3,10 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-require('./app_server/models/db');
+require('./app_api/models/db');
 
 var homeRouter = require('./app_server/routes/home');
+var routesApi = require('./app_api/routes/index');
 
 var app = express();
 
@@ -22,6 +23,7 @@ app.use('/bootstrap', express.static(path.join(__dirname, 'node_modules/bootstra
 app.use('/bootstrap-icons', express.static(path.join(__dirname, 'node_modules/bootstrap-icons')));
 
 app.use('/', homeRouter);
+app.use('/api', routesApi);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
