@@ -11,10 +11,13 @@
     <div class="mb-3"><% include ./partials/nav %></div>
     <p>
       <% blogs.forEach(function(blog) { %>
-        <div class="card border-primary" style="width: 50%">
+        <div class="card border-dark" style="width: 50%">
           <div class="card-header">
             <div class="row">
             </div>
+          </div>
+          <div class="card-header">
+            <h5 class="pt-3"><%= blog.createdOn %></h5>
           </div>
           <div class="card-body">
             <h5 class="card-title"><%= blog.blogTitle %></h5>
@@ -26,12 +29,12 @@
                 <ul class="nav justify-content-end nav-pills card-header-pills">
                   <li class="nav-item">
                     <a class="nav-link" href="/blogedit/<%= blog._id %>">
-                      <i class="fas fa-edit"></i>
+                      <i class="fas fa-edit text-dark"></i>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="/blogdeletion">
-                      <i class="fas fa-trash-alt"></i>
+                    <a class="nav-link" href="/blogdeletion/<%= blog._id %>">
+                      <i class="fas fa-trash-alt text-dark"></i>
                     </a>
                   </li>
                 </ul>
