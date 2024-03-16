@@ -13,15 +13,25 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
             templateUrl: 'pages/blogAdd.html'
         })
         .when('/bloglist', {
-            templateUrl: 'pages/blogList.html'
+            templateUrl: 'pages/blogList.html',
+            controller: 'BlogListController',
+            controllerAs: 'vm'
         })
         .otherwise({redirectTo: '/'});
 }]);
 
 /** API CONTROLLERS **/
 function getAllBlogs($http) {
-    return $http.get('/api/bloglist');
+    return $http.get('/api/blogs')
+        .then(function(response) {
+            return response.data;
+        })
+        .catch(function(error) {
+            // Handle error if necessary
+            throw error;
+        });
 }
+
 
 /** PAGE CONTROLLERS **/
 app.controller('HomeController', ['$scope', function($scope) {
@@ -31,15 +41,15 @@ app.controller('HomeController', ['$scope', function($scope) {
     };
 }]);
 
-app.controller('BlogListController', [$scope, function($scope) {
+app.controller('BlogListController', ['$scope','$http', function($scope, $http) {
     var vm = this;
 
     getAllBlogs($http)
-        .success(function(data) {
+        .then(function(data) {
             vm.blogs = data;
-            compile.message('Blogs Found!');
+            console.log('Blogs Found!', data);
         })
-        .error(function(e){
-            vm.message('Could not get list of blogs!');
+        .catch(function(error) {
+            console.error('Could not get list of blogs!', error);
         });
 }]);
