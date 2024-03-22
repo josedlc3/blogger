@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="blogApp">
+<html ng-app="bloggerApp" class="ng-scope">
     <head>
         <base href="/">
         <link rel='stylesheet' href='/stylesheets/style.css' />
@@ -8,7 +8,6 @@
         <script src="/lib/angular.min.js"></script>
         <script src="/lib/angular-route.min.js"></script>
         <script src="/bootstrap/js/bootstrap.min.js"></script>
-        <script src="app_client/bloggerApp.js"></script>
     </head>
     <body>
         <!-- Navigation -->
@@ -22,5 +21,6 @@
             </div>
         </nav>
         <div ng-view></div>
+        <script src="/js/bloggerApp.js"></script>
     </body>
 </html>
