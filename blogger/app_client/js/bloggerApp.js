@@ -29,6 +29,16 @@ app.config(function($routeProvider, $locationProvider){
             controller: 'BlogDeletionController',
             controllerAs: 'bd'
         })
+        .when('/signup', {
+            templateUrl: 'pages/signup.html',
+            controller: 'SignUpController',
+            controllerAs: 'su'
+        })
+        .when('/signin', {
+            templateUrl: 'pages/signin.html',
+            controller: 'SignInController',
+            controllerAs: 'si'
+        })
         .otherwise({redirectTo: '/'});
 });
 
