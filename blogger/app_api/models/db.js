@@ -1,5 +1,6 @@
 var mongoose = require( 'mongoose' );
 require('./blogs');
+require('./users');
 var gracefulShutdown;
 var dbPassword = 'mongoBlogs$$!!';
 var encodedPassword = encodeURIComponent(dbPassword);

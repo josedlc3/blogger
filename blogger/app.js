@@ -1,4 +1,5 @@
 require('dotenv').config();
+console.log('JWT_SECRET:', process.env.JWT_SECRET);
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');

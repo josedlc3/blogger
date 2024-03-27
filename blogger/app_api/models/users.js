@@ -1,8 +1,8 @@
 var mongoose = require('mongoose')
 
-mongoose.set('userNewUrlParser', true);
-mongoose.set('useFindAndModify', false);
-mongoose.set('userCreateIndex', true);
+//mongoose.set('useNewUrlParser', true);
+//mongoose.set('useFindAndModify', false);
+//mongoose.set('useCreateIndex', true);
 
 var crypto = require('crypto');
 var jwt = require('jsonwebtoken');
