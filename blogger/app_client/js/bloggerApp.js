@@ -63,8 +63,8 @@ function getABlog($http, id) {
         });
 } 
 
-function updateBlog($http, id, data) {
-    return $http.put('/api/blogs/' + id, data)
+function updateBlog($http, authentication, id, data) {
+    return $http.put('/api/blogs/' + id, data, {headers : { Authorization: 'Bearer ' + authentication.getToken()}})
         .then(function(response) {
             return response.data;
         })
@@ -73,8 +73,8 @@ function updateBlog($http, id, data) {
         });
 }
 
-function postBlog($http, data) {
-    return $http.post('/api/blogs', data) 
+function postBlog($http, authentication, data) {
+    return $http.post('/api/blogs', data, {headers : { Authorization: 'Bearer ' + authentication.getToken()}})
         .then(function(response) {
             return response.data;
         })
@@ -83,8 +83,8 @@ function postBlog($http, data) {
         });
 }
 
-function deleteBlog($http, id) {
-    return $http.delete('/api/blogs/' + id)
+function deleteBlog($http, authentication, id) {
+    return $http.delete('/api/blogs/' + id, {headers : { Authorization: 'Bearer ' + authentication.getToken()}})
         .then(function(response) {
             return response.data;
         })
@@ -102,7 +102,7 @@ app.controller('HomeController', ['$scope', function($scope) {
     };
 }]);
 
-app.controller('AddBlogController', ['$scope', '$http', '$location', function($scope, $http, $location) {
+app.controller('AddBlogController', ['$scope', '$http', '$location', 'authentication', function($scope, $http, $location, authentication) {
     var ab = this;
 
     ab.pageHeader = {
@@ -118,7 +118,7 @@ app.controller('AddBlogController', ['$scope', '$http', '$location', function($s
             blogEntry: ab.blogEntry
         };
 
-        postBlog($http, data)
+        postBlog($http, authentication, data)
             .then(function(data) {
                 ab.blog = data;
                 console.log('Blog Posted!');
@@ -148,7 +148,7 @@ app.controller('BlogListController', ['$scope','$http', function($scope, $http) 
         });
 }]);
 
-app.controller('BlogEditController', ['$scope', '$http', '$routeParams', '$location', function($scope, $http, $routeParams, $location) {
+app.controller('BlogEditController', ['$scope', '$http', '$routeParams', '$location', 'authentication', function($scope, $http, $routeParams, $location, authentication) {
     var eb = this;
     eb.blog = {};
     eb.id = $routeParams.id;
@@ -171,7 +171,7 @@ app.controller('BlogEditController', ['$scope', '$http', '$routeParams', '$locat
             data.blogTitle = userForm.blogTitle.value;
             data.blogEntry = userForm.blogEntry.value;
 
-            updateBlog($http, eb.id, data)
+            updateBlog($http, authentication, eb.id, data)
                 .then(function(data){
                     eb.blog = data;
                     console.log('Blog was successfully updated!');
@@ -185,7 +185,7 @@ app.controller('BlogEditController', ['$scope', '$http', '$routeParams', '$locat
 
 }]);
 
-app.controller('BlogDeletionController', ['$scope', '$http', '$routeParams', '$location', function($scope, $http, $routeParams, $location) {
+app.controller('BlogDeletionController', ['$scope', '$http', '$routeParams', '$location', 'authentication', function($scope, $http, $routeParams, $location, authentication) {
     var bd = this;
     bd.id = $routeParams.id;
 
@@ -204,7 +204,7 @@ app.controller('BlogDeletionController', ['$scope', '$http', '$routeParams', '$l
 
     bd.submit = function() {
 
-        deleteBlog($http, bd.id)
+        deleteBlog($http, authentication, bd.id)
             .then(function(data) {
                 console.log('Blog was successfully deleted!');
                 $location.path('bloglist');

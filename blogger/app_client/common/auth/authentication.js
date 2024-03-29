@@ -14,16 +14,16 @@ function authentication ($window, $http) {
     }
 
     var register = function(user) {
-        console.log('Registering user' + user.email + ' ' + user.password);
-        return $http.post('/api/register', user).success(function(data){
-            saveToken(data.token);
-        });  
+        console.log('Registering user ' + user.email + ' ' + user.password);
+        return $http.post('/api/register', user).then(function(data){
+          saveToken(data.data.token);
+      });
     };
 
     var login = function(user) {
-        console.log('Attempting to login user' + user.email + ' ' + user.password);
-        return $http.post('/api/login', user).success(function(data){
-            saveToken(data.token);
+        console.log('Attempting to login user ' + user.email + ' ' + user.password);
+        return $http.post('/api/login', user).then(function(data){
+           saveToken(data.data.token);
         });
     };
 
@@ -64,7 +64,7 @@ function authentication ($window, $http) {
     };
 }
 
-app.controller('SignInController', ['$http', '$location', 'authentication', function SignInController($http, $location, authentication) {
+app.controller('SignInController', ['$location', 'authentication', function SignInController($location, authentication) {
     var si = this;
     si.pageHeader = {
         title: 'Sign In'
@@ -80,7 +80,7 @@ app.controller('SignInController', ['$http', '$location', 'authentication', func
     si.onSubmit = function() {
         si.formError = "";
 
-        if(si.credentials.email || si.credentials.password) {
+        if(!si.credentials.email || !si.credentials.password) {
             si.formError = "All fields required, please try again.";
             return false;
         } else {
@@ -91,16 +91,14 @@ app.controller('SignInController', ['$http', '$location', 'authentication', func
     si.doLogin = function() {
         si.formError = "";
         authentication
-        .login(si.credentials)
-        .error(function(err){
-            var obj = err;
-            si.formError = obj.message;
-        })
-        .then(function(){
-            $location.search('page', null);
-            $location.path(si.returnPage);
-        });
-    };
+          .login(si.credentials)
+          .then(function(){
+            $location.path('blogList');
+          }
+          , (function(err){
+            si.formError = "Login failed. Email or password maybe incorrect.";
+          }));
+      };
 }]);
 
 app.controller('SignUpController', ['$http', '$location', 'authentication', function SignUpController($http, $location, authentication) {
@@ -130,15 +128,14 @@ app.controller('SignUpController', ['$http', '$location', 'authentication', func
     su.doRegister = function() {
         su.formError = "";
         authentication
-        .register(su.credentials)
-        .error(function(err){
-            su.formError = "Error signing up. Try again with a different email address.";
-        })
-        .then(function(){
-            $location.search('page', null);
-            $location.path(su.returnPage);
-        });
-    };
+          .register(su.credentials)
+          .then(function(){
+            $location.path('blogList');
+          }
+          , (function(err){
+            su.formError = "Error registering. Try again with a different email address."
+          }));
+      }; 
 
 }]);
 

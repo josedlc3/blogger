@@ -8,7 +8,7 @@ var sendJSONresponse = function(res, status, content) {
 };
 
 module.exports.register = function(req, res) {
-    if(!req.body.name || !req.body.email || !req.body.password) {
+    if (!req.body.name || !req.body.email || !req.body.password) {
         sendJSONresponse(res, 400, {
             "message": "All fields required."
         });
@@ -18,25 +18,25 @@ module.exports.register = function(req, res) {
     var user = new User();
 
     user.name = req.body.name;
-    user.email = req.body.emal;
+    user.email = req.body.email;
 
     user.setPassword(req.body.password);
 
-    user.save(function(err) {
-        var token;
-        if(err) {
+    user.save()
+        .then(() => {
+            return user.generateJwt();
+        })
+        .then(token => {
+            sendJSONresponse(res, 200, { "token": token });
+        })
+        .catch(err => {
             sendJSONresponse(res, 404, err);
-        } else {
-            token = user.generateJwt();
-            sendJSONresponse(res, 200, {
-                "token" : token
-            });
-        }
-    });
+        });
 };
 
+
 module.exports.login = function(req, res) {
-    if(req.body.email || !req.body.password) {
+    if(!req.body.email || !req.body.password) {
         sendJSONresponse(res, 400, {
             "message": "All fields required."
         });
@@ -50,13 +50,18 @@ module.exports.login = function(req, res) {
             sendJSONresponse(res, 404, err);
             return;
         }
-        if(user) {
-            token = generateJwt();
-            sendJSONresponse(res, 200, {
-                "token" : token
-            });
-        } else {
+        if (user) {
+            token = user.generateJwt()
+              .then(token => {
+                sendJSONresponse(res, 200, {
+                  "token": token
+                });
+              })
+              .catch(err => {
+                sendJSONresponse(res, 500, err);
+              });
+          } else {
             sendJSONresponse(res, 401, info);
-        }
-    })(res, req);
+          }
+        })(req, res);
 };

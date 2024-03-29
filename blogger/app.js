@@ -1,5 +1,4 @@
 require('dotenv').config();
-console.log('JWT_SECRET:', process.env.JWT_SECRET);
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -12,6 +11,8 @@ require('./app_api/config/passport');
 var routesApi = require('./app_api/routes/index');
 
 var app = express();
+
+app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(express.json());

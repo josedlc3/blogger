@@ -1,13 +1,10 @@
 var mongoose = require( 'mongoose' );
-require('./blogs');
-require('./users');
 var gracefulShutdown;
 var dbPassword = 'mongoBlogs$$!!';
 var encodedPassword = encodeURIComponent(dbPassword);
 var dbURI = `mongodb://blogs:${encodedPassword}@localhost:27017/blogs`;
-var dbUsersURI = `mongodb://user:users123@localhost:27017/users`;
 mongoose.connect(dbURI);
-mongoose.connect(dbUsersURI);
+
 
 // Monitor and report when database is connected                      
 mongoose.connection.on('connected', function () {
@@ -48,4 +45,6 @@ process.on('SIGTERM', function() {
   gracefulShutdown('Heroku app shutdown', function () {
     process.exit(0);
 }); });
-       
+
+require('./blogs');
+require('./users');
