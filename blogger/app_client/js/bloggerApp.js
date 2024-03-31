@@ -131,12 +131,16 @@ app.controller('AddBlogController', ['$scope', '$http', '$location', 'authentica
 }]);
 
 
-app.controller('BlogListController', ['$scope','$http', function($scope, $http) {
+app.controller('BlogListController', ['$scope','$http', 'authentication', function($scope, $http, authentication) {
     var bl = this;
 
     bl.pageHeader = {
         title: 'Blog List'
     };
+
+    bl.isLoggedIn = function() {
+        return authentication.isLoggedIn();
+    }
 
     getAllBlogs($http)
         .then(function(data) {
