@@ -1,0 +1,17 @@
+.ng-scope {
+    
+    body {
+        background-color: #000;
+        background-image: url('/common/assets/black.jpeg');
+        background-size: cover;
+        background-repeat: repeat;
+        background-attachment: fixed;
+    }
+    
+
+    .card, .navbar {
+        background-color: rgba(0, 0, 0, .7);
+        border: none;
+    }
+
+}
