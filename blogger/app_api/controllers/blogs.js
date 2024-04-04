@@ -39,7 +39,9 @@ module.exports.createNewBlog = function (req, res) {
     Blo
         .create({
             blogTitle: req.body.blogTitle,
-            blogEntry: req.body.blogEntry
+            blogEntry: req.body.blogEntry,
+            blogAuthor: req.body.blogAuthor,
+            authorEmail: req.body.authorEmail
         })
         .then(blog => {
             console.log(blog);
@@ -100,6 +102,8 @@ var buildBlogList = function (req, res, results) {
             blogTitle: obj.blogTitle,
             blogEntry: obj.blogEntry,
             createdOn: obj.createdOn,
+            blogAuthor: obj.blogAuthor,
+            authorEmail: obj.authorEmail,
             _id: obj._id
         });
     });

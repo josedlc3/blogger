@@ -17,10 +17,10 @@
             <div class="card-footer">
                 <div class="row">
                     <div class="col-sm d-flex justify-content-left">
-                        <small class="text-white mt-2">Created on: {{ blog.createdOn | date:'medium'}}</small>
+                        <small class="text-white mt-2">Authored by: {{ blog.blogAuthor }} on {{ blog.createdOn | date:'MM/dd/yyyy'}}</small>
                     </div>
                     <div class="col-sm">
-                        <ul ng-show="bl.isLoggedIn()" class="nav justify-content-end nav-pills card-header-pills">
+                        <ul ng-show="bl.isLoggedIn() && bl.isAuthor(blog.authorEmail)" class="nav justify-content-end nav-pills card-header-pills">
                             <li class="nav-item">
                                 <a class="nav-link" href="/blogedit/{{blog._id}}">
                                     <i class="fas fa-edit text-white"></i>
