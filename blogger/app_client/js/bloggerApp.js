@@ -111,11 +111,15 @@ app.controller('AddBlogController', ['$scope', '$http', '$location', 'authentica
 
     ab.blogTitle = '';
     ab.blogEntry = '';
+    ab.blogAuthor = authentication.currentUser().name;
+    ab.authorEmail = authentication.currentUser().email;
 
     ab.submit = function() {
         var data = {
             blogTitle: ab.blogTitle,
-            blogEntry: ab.blogEntry
+            blogEntry: ab.blogEntry,
+            blogAuthor: ab.blogAuthor,
+            authorEmail: ab.authorEmail
         };
 
         postBlog($http, authentication, data)
@@ -145,6 +149,9 @@ app.controller('BlogListController', ['$scope','$http', 'authentication', functi
     getAllBlogs($http)
         .then(function(data) {
             bl.blogs = data;
+            bl.isAuthor = function(authorEmail) {
+                return authentication.currentUser().email === authorEmail
+            };
             console.log('Blogs Found!');
         })
         .catch(function(error) {
