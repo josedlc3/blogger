@@ -5,10 +5,10 @@
       <div class="card border-dark" style="width: 50%">
         <form name="userForm" ng-submit="bd.submit()" style="padding: 20px; font-size: 18px">
           <div class="form-group">
-            <label for="summary" class="text-white">Blog Title</label>
+            <label for="summary" class="">Blog Title</label>
             <input readonly class="form-control" id="blogTitle" name="blogTitle" value="{{ bd.blog.blogTitle }}">
             <p></p>
-            <label for="text" class="text-white">Blog Text</label>
+            <label for="text" class="">Blog Text</label>
             <textarea readonly class="form-control" id="blogEntry" rows="3" name="blogEntry">{{ bd.blog.blogEntry }}</textarea>
             <p></p>
           </div>

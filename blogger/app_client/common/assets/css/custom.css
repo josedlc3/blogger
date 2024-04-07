@@ -2,15 +2,19 @@
     
     body {
         background-color: #000;
-        background-image: url('/common/assets/black.jpeg');
+        background-image: url('/common/assets/black.png');
         background-size: cover;
         background-repeat: repeat;
         background-attachment: fixed;
+        color: white;
     }
     
+    p,.name, .email, .password {
+        color: white;
+    }
 
     .card, .navbar {
-        background-color: rgba(0, 0, 0, .7);
+        background-color: rgba(0, 0, 0, 0.7);
         border: none;
     }
 
