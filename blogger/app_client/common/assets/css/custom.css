@@ -2,14 +2,35 @@
     
     body {
         background-color: #000;
-        background-image: url('/common/assets/black.png');
+        background-image: url('/common/assets/black.jpeg');
         background-size: cover;
         background-repeat: repeat;
         background-attachment: fixed;
         color: white;
+        font-family: "Urbanist", sans-serif;
+    }
+
+    nav {
+        font-size: 23px;
+    }
+
+    h1 {
+        font-size: 150px;
+        font-family: "Rubik Scribble", system-ui;
+        font-weight: 400;
+        font-style: normal;
+        color: black
+    }
+
+    .home-title{
+        margin-top: 350px;
+    }
+
+    .blog-list, .sign-up, .sign-in, .add-blog, .edit-blog, .delete-blog{
+        margin-top: 125px;
     }
     
-    p,.name, .email, .password {
+    p,.name, .email, .password, .card-header, .card-footer, .title, .entry, .edit, .delete {
         color: white;
     }
 
@@ -17,5 +38,6 @@
         background-color: rgba(0, 0, 0, 0.7);
         border: none;
     }
+      
 
 }

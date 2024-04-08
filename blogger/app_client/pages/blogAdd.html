@@ -1,14 +1,14 @@
 <title>{{ ab.pageHeader.title }}</title>
 <body ng-controller="AddBlogController as ab">
-    <div class="container d-flex justify-content-center mt-5">
+    <div class="add-blog container d-flex justify-content-center">
         <p></p>
         <div class="card border-dark" style="width: 50%">
             <form name="userForm" ng-submit="ab.submit()" style="padding: 20px; font-size: 18px">
                 <div class="form-group">
-                    <label for="blogTitle" class="">Title</label>
+                    <label for="blogTitle" class="title">Title</label>
                     <input class="form-control" id="blogTitle" name="blogTitle" ng-model="ab.blogTitle" required>
                     <p></p>
-                    <label for="blogEntry" class="">Entry</label>
+                    <label for="blogEntry" class="entry">Entry</label>
                     <textarea class="form-control" id="blogEntry" rows="3" name="blogEntry" ng-model="ab.blogEntry" required></textarea>
                     <p></p>
                 </div>

@@ -98,7 +98,7 @@ function deleteBlog($http, authentication, id) {
 app.controller('HomeController', ['$scope', function($scope) {
     var vm = this;
     vm.pageHeader = {
-        title: "Jose De La Cruz's Blog Page"
+        title: "Blogger"
     };
 }]);
 

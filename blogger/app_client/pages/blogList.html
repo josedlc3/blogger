@@ -1,7 +1,7 @@
 <title>{{ bl.pageHeader.title }}</title>
 <body>
     <p>
-    <div class="d-flex justify-content-center mt-5" ng-repeat="blog in bl.blogs">
+    <div class="blog-list d-flex justify-content-center" ng-repeat="blog in bl.blogs">
         <div class="card" style="width: 50%;">
             <div class="card-header">
                 <div class="row">
@@ -23,12 +23,12 @@
                         <ul ng-show="bl.isLoggedIn() && bl.isAuthor(blog.authorEmail)" class="nav justify-content-end nav-pills card-header-pills">
                             <li class="nav-item">
                                 <a class="nav-link" href="/blogedit/{{blog._id}}">
-                                    <i class="fas fa-edit"></i>
+                                    <i class="edit fas fa-edit"></i>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/blogdeletion/{{blog._id}}">
-                                    <i class="fas fa-trash-alt"></i>
+                                    <i class="delete fas fa-trash-alt"></i>
                                 </a>
                             </li>
                         </ul>
