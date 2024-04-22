@@ -1,0 +1,30 @@
+<title>{{ pg.pageHeader.title }}</title>
+<div class="container mt-5">
+    <h1 class="text-center text-white mb-4">Tic Tac Toe</h1>
+    <div class="board" ng-if="pg.activeGame">
+        <div class="row" ng-repeat="row in [0, 1, 2]">
+            <div class="col" ng-repeat="col in [0, 1, 2]">
+                <button class="btn btn-outline-white text-white btn-lg d-block w-100 mb-2"
+                        ng-click="pg.makeMove(row, col)">
+                    {{ pg.grid[row * 3 + col] || '' }} <!-- Display the value from the grid array or an empty string -->
+                </button>
+            </div>
+        </div>
+        <div class="text-center mt-3" ng-if="pg.playerLeft && !pg.winner">
+            <h2>You Win! Opponent left the game. </h2>
+            <button class="btn bg-dark text-white"><a class="nav-item nav-link active" href="/">Leave Game</a></button>
+            <button class="btn bg-secondary border-dark text-white" ng-click="pg.delete()">New Game</button>
+        </div>
+    </div>
+
+    <div class="text-center mt-3" ng-if="pg.winner">
+        <h2 ng-if="pg.winner === 'Draw'">It's a Draw!</h2>
+        <h2 ng-if="pg.winner !== 'Draw'">Winner: {{ pg.winner }}</h2>
+        <button class="btn bg-dark text-white"><a class="nav-item nav-link active" href="/">Leave Game</a></button>
+        <button class="btn bg-secondary border-dark text-white" ng-click="pg.delete()">New Game</button>
+    </div>
+
+    <div class="text-center mt-3">
+        <button class="btn bg-dark text-white" ng-hide="pg.activeGame" ng-click="pg.createGame()">New Game</button>
+    </div>
+</div>
