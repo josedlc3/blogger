@@ -2,14 +2,35 @@
     
     body {
         background-color: #000;
-        background-image: url('/common/assets/black.png');
+        background-image: url('/common/assets/black.jpeg');
         background-size: cover;
         background-repeat: repeat;
         background-attachment: fixed;
         color: white;
+        font-family: "Urbanist", sans-serif;
+    }
+
+    nav {
+        font-size: 23px;
+    }
+
+    h1 {
+        font-size: 150px;
+        font-family: "Rubik Scribble", system-ui;
+        font-weight: 400;
+        font-style: normal;
+        color: black
+    }
+
+    .home-title{
+        margin-top: 350px;
+    }
+
+    .blog-list, .sign-up, .sign-in, .add-blog, .edit-blog, .delete-blog{
+        margin-top: 125px;
     }
     
-    p,.name, .email, .password {
+    p,.name, .email, .password, .card-header, .card-footer, .title, .entry, .edit, .delete {
         color: white;
     }
 
@@ -17,5 +38,90 @@
         background-color: rgba(0, 0, 0, 0.7);
         border: none;
     }
+      
 
+      
+    .board {
+        border-radius: 8px;
+        overflow: hidden; /* Ensure borders do not extend beyond board */
+        width: 100%; /* Adjust as needed */
+        height: 100%;
+        margin: 0 auto; /* Center the board */
+
+        .row {
+        margin: 0; /* Reset margin */
+        padding: 0; /* Reset padding */
+        }
+
+        .col {
+        padding: 0; /* Reset padding */
+        }
+
+        .btn-lg {
+            height: 100px; /* Height to match Bootstrap's .btn-lg width */
+            font-size: 2em;
+            border: 1px solid white; /* Add border to buttons */
+        }
+    }
+
+
+}
+
+.features-container{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    font-family:"Urbanist", sans-serif;
+    box-shadow: 0 4px 8px -4px rgba(0, 0, 0, 0.3);
+}
+
+.features-container .title {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.7);
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    color: white;
+    font-weight: bold;
+    z-index: 200;
+}
+
+.features-container ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    animation: scroll 25s infinite linear;
+}
+
+.features-container ul li {
+    white-space: nowrap;
+    padding: 10px 24px;
+    color: white;
+    position: relative;
+}
+
+.features-container ul li::after {
+    content:"";
+    width: 1px;
+    height: 100%;
+    background: #b8b8b8;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.features-container ul li:last-child::after {
+    display: none;
+}
+
+@keyframes scroll {
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(-1083px);
+    }
 }

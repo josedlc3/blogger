@@ -39,6 +39,11 @@ app.config(function($routeProvider, $locationProvider){
             controller: 'SignInController',
             controllerAs: 'si'
         })
+        .when('/games', {
+            templateUrl: 'pages/games.html',
+            controller: 'GamesController',
+            controllerAs: 'pg'
+        })
         .otherwise({redirectTo: '/'});
 });
 
@@ -93,12 +98,61 @@ function deleteBlog($http, authentication, id) {
         });
 }
 
+function createGame($http) {
+    return $http.post('/api/games')
+    .then(function(response){
+        return response.data;
+    })
+    .catch(function(error){
+        throw error;
+    });
+}
+
+function getGame($http) {
+    return $http.get('/api/games')
+    .then(function(response){
+        return response.data;
+    })
+    .catch(function(error){
+        throw error;
+    });
+}
+
+function makeMove($http, row, col) {
+    return $http.put('/api/games', {row: row, col: col})
+    .then(function(response){
+        return response.data;
+    })
+    .catch(function(error){
+        throw error;
+    });
+}
+
+function deleteGame($http) {
+    return $http.delete('/api/games')
+    .then(function(response) {
+        return response.data;
+    })
+    .catch(function(error) {
+        throw error;
+    });
+}
+
+function deleteGames($http) {
+    return $http.delete('/api/games')
+    .then(function(response) {
+        return response.data;
+    })
+    .catch(function(error) {
+        throw error;
+    });
+}
 
 /** PAGE CONTROLLERS **/
 app.controller('HomeController', ['$scope', function($scope) {
     var vm = this;
     vm.pageHeader = {
-        title: "Jose De La Cruz's Blog Page"
+        title: "Blogger"
     };
 }]);
 
@@ -224,4 +278,96 @@ app.controller('BlogDeletionController', ['$scope', '$http', '$routeParams', '$l
                 throw error;
             });
     }
+}]);
+
+app.controller('GamesController', ['$scope', '$http', '$interval',  function($scope, $http, $interval) {
+    var pg = this;
+    pg.pageHeader = {
+        title: "Games"
+    };
+
+
+    pg.grid = null;
+    pg.currentPlayer = 'X';
+    pg.winner = null;
+    pg.interval = true;
+    pg.activeGame = false;
+    pg.activePlayer1 = true;
+    pg.activePlayer2 = true;
+    pg.playerLeft = false;
+    pg.scopeDestroyed = false;
+
+    // Define a function to fetch the game state from the server
+    function getGameState() {
+        $http.get('/api/games')
+            .then(function (response) {
+                pg.grid = response.data.grid;
+                pg.currentPlayer = response.data.currentPlayer;
+                pg.winner = response.data.winner;
+                pg.activeGame = response.data.activeGame;
+                pg.playerLeft = response.data.playerLeft;
+            })
+            .catch(function (error) {
+                pg.playerLeft = true;
+                console.error('Error fetching game state:', error);
+            });
+    }
+
+    pg.createGame = function() {
+        createGame($http) 
+            .then(function (response) {
+                pg.grid = response.grid;
+                pg.currentPlayer = 'X';
+                pg.winner = response.winner;
+                pg.activeGame = true;
+            })
+            .catch(function (error) {
+                // Handle error
+            });
+    };
+
+
+    pg.makeMove = function(row, col) {
+        makeMove($http, row, col)
+        .then(function (response) {
+            var index = row * 3 + col;
+            pg.grid[index] = response;
+        })
+        .catch(function (error) {
+
+        });
+    };
+
+    
+
+    pg.delete = function() {
+        deleteGame($http)
+            .then(function(response) {
+                pg.createGame();
+            })
+            .catch(function(error) {
+                console.error('Error deleting game:', error);
+            });
+    };
+
+
+    var intervalPromise = $interval(getGameState, 200);
+    
+
+    $scope.$on('$destroy', function(){
+        if (angular.isDefined(intervalPromise)) {
+            $interval.cancel(intervalPromise);
+            intervalPromise = undefined;
+        }
+        if (pg.activeGame) {
+            deleteGame($http)
+                .then(function(response) {
+
+                })
+                .catch(function(error) {
+                    console.error('Error deleting game:', error);
+                });
+        }
+    });
+
 }]);
