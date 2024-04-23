@@ -8,15 +8,17 @@ var sendJsonResponse = function (res, status, content) {
 let currentGame = null;
 
 module.exports.createGame = async function(req, res) {
+
+    const { gameStarter } = req.body;
+
     if(!currentGame) {
         currentGame = {
             grid: new Array(9).fill(null), 
             currentPlayer: 'X',
             winner: null, 
             activeGame: true,
-            activePlayer1: true,
-            activePlayer2: true,
-            playerLeft: false
+            playerLeft: false,
+            gameStarter: gameStarter
         };
         sendJsonResponse(res, 201, currentGame);
     } else {

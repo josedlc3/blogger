@@ -125,3 +125,14 @@
         transform: translateX(-1083px);
     }
 }
+
+.how-to-play-list {
+    text-align: left;
+    display: inline-block;
+    list-style: decimal;
+}
+
+.list-number {
+    font-weight: bold;
+    margin-right: 5px;
+}
