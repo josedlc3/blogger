@@ -98,8 +98,8 @@ function deleteBlog($http, authentication, id) {
         });
 }
 
-function createGame($http) {
-    return $http.post('/api/games')
+function createGame($http, gameStarter) {
+    return $http.post('/api/games', { gameStarter: gameStarter })
     .then(function(response){
         return response.data;
     })
@@ -280,24 +280,20 @@ app.controller('BlogDeletionController', ['$scope', '$http', '$routeParams', '$l
     }
 }]);
 
-app.controller('GamesController', ['$scope', '$http', '$interval',  function($scope, $http, $interval) {
+app.controller('GamesController', ['$scope', '$http', '$interval','authentication',  function($scope, $http, $interval, authentication) {
     var pg = this;
     pg.pageHeader = {
         title: "Games"
     };
 
-
     pg.grid = null;
-    pg.currentPlayer = 'X';
+    pg.currentPlayer = null;
     pg.winner = null;
-    pg.interval = true;
     pg.activeGame = false;
-    pg.activePlayer1 = true;
-    pg.activePlayer2 = true;
     pg.playerLeft = false;
-    pg.scopeDestroyed = false;
 
-    // Define a function to fetch the game state from the server
+    pg.gameStarter = authentication.currentUser().email;
+
     function getGameState() {
         $http.get('/api/games')
             .then(function (response) {
@@ -306,6 +302,8 @@ app.controller('GamesController', ['$scope', '$http', '$interval',  function($sc
                 pg.winner = response.data.winner;
                 pg.activeGame = response.data.activeGame;
                 pg.playerLeft = response.data.playerLeft;
+                pg.gameStarter = response.data.gameStarter;
+                console.log(pg.gameStarter);
             })
             .catch(function (error) {
                 pg.playerLeft = true;
@@ -314,7 +312,7 @@ app.controller('GamesController', ['$scope', '$http', '$interval',  function($sc
     }
 
     pg.createGame = function() {
-        createGame($http) 
+        createGame($http, { gameStarter: pg.gameStarter}) 
             .then(function (response) {
                 pg.grid = response.grid;
                 pg.currentPlayer = 'X';
@@ -322,12 +320,16 @@ app.controller('GamesController', ['$scope', '$http', '$interval',  function($sc
                 pg.activeGame = true;
             })
             .catch(function (error) {
-                // Handle error
+
             });
     };
 
 
     pg.makeMove = function(row, col) {
+    if ((pg.currentPlayer === 'X' && pg.gameStarter.gameStarter !== authentication.currentUser().email) || 
+        (pg.currentPlayer === 'O' && pg.gameStarter.gameStarter === authentication.currentUser().email)) {
+        return;
+    }
         makeMove($http, row, col)
         .then(function (response) {
             var index = row * 3 + col;
@@ -339,21 +341,18 @@ app.controller('GamesController', ['$scope', '$http', '$interval',  function($sc
     };
 
     
-
     pg.delete = function() {
         deleteGame($http)
             .then(function(response) {
-                pg.createGame();
+                
             })
             .catch(function(error) {
                 console.error('Error deleting game:', error);
             });
     };
 
-
     var intervalPromise = $interval(getGameState, 200);
     
-
     $scope.$on('$destroy', function(){
         if (angular.isDefined(intervalPromise)) {
             $interval.cancel(intervalPromise);

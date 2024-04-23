@@ -13,16 +13,29 @@
         <div class="text-center mt-3" ng-if="pg.playerLeft && !pg.winner">
             <h2>You Win! Opponent left the game. </h2>
             <button class="btn bg-dark text-white"><a class="nav-item nav-link active" href="/">Leave Game</a></button>
-            <button class="btn bg-secondary border-dark text-white" ng-click="pg.delete()">New Game</button>
         </div>
+    </div>
+
+    <div class="text-center mt-3" ng-if="pg.activeGame && !pg.winner && !pg.playerLeft">
+        <h2>{{ pg.currentPlayer }}'s Move</h2>
     </div>
 
     <div class="text-center mt-3" ng-if="pg.winner">
         <h2 ng-if="pg.winner === 'Draw'">It's a Draw!</h2>
         <h2 ng-if="pg.winner !== 'Draw'">Winner: {{ pg.winner }}</h2>
         <button class="btn bg-dark text-white"><a class="nav-item nav-link active" href="/">Leave Game</a></button>
-        <button class="btn bg-secondary border-dark text-white" ng-click="pg.delete()">New Game</button>
     </div>
+
+        <div class="text-center mt-3" ng-if="!pg.activeGame">
+            <h2>How to play:</h2>
+            <ul class="how-to-play-list">
+                <li> Player that presses "New Game" is assigned 'X' and goes first.</li>
+                <li> Can't make a move? Not your turn!</li>
+                <li> The first player to get 3 of her marks in a row (up, down, across, or diagonally) is the winner.</li>
+                <li> When all 9 squares are full, the game is over. If no player has 3 marks in a row, the game ends in a tie.</li>
+                <li> Have Fun!</li>
+            </ul>
+        </div>
 
     <div class="text-center mt-3">
         <button class="btn bg-dark text-white" ng-hide="pg.activeGame" ng-click="pg.createGame()">New Game</button>
